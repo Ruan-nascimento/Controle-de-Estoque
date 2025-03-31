@@ -4,7 +4,7 @@ import { API_URL } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import SessionExpiredModal from "./components/Error/SectionExpired";
+import SessionExpiredModal from "./components/Error/SessionExpiredModal";
 import { Spinner } from "./components/spinner";
 
 
