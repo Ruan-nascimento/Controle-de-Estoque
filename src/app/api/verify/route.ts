@@ -13,24 +13,28 @@ export async function GET(request: NextRequest) {
         }
 
         const jwtSecret = process.env.SECRET_KEY;
-        
         if (!jwtSecret) {
-            throw new Error('SECRET_KEY não configurado no .env');
-        }
+        return NextResponse.json(
+            { error: "Erro de configuração do servidor" },
+            { status: 500 }
+        );
+    }
 
         const decoded = jwt.verify(token, jwtSecret);
-        console.log('Token decodificado:', decoded); 
 
         return NextResponse.json(
-            { message: 'Token válido' },
+            { message: 'Token válido', user: decoded },
             { status: 200 }
         );
 
     } catch (error: any) {
-        console.error('Erro na verificação do token:', error.message);
+        console.error("Erro na verificação do token:", error.message);
         return NextResponse.json(
-            { error: 'Token inválido ou erro no servidor', details: error.message },
-            { status: 500 }
+          {
+            error: "Token inválido ou expirado",
+            details: error.message,
+          },
+          { status: 401 }
         );
-    }
+      }
 }

@@ -71,7 +71,7 @@ export default function LoginPage() {
         }
     };
 
-    return checkingToken ? <Spinner /> :
+    return checkingToken ? <Spinner className="absolute top-1/2 left-1/2"/> :
         (<section className="w-screen h-dvh flex items-center justify-center">
             <form
                 onSubmit={onSubmit}
