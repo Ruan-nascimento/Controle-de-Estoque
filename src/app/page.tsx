@@ -6,12 +6,17 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import SessionExpiredModal from "./components/Error/SessionExpiredModal";
 import { Spinner } from "./components/spinner";
+import { NavigationBar, NavProps } from "./components/layouts/navigationBar";
+import { DashboardPage } from "./components/pages/dashboard";
+import { StockPage } from "./components/pages/stock";
 
 
 export default function Home() {
   const router = useRouter();
   const [checkingToken, setCheckingToken] = useState<boolean>(true);
   const [sessionExpired, setSessionExpired] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<NavProps>("dashboard")
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false)
 
   useEffect(() => {
     setCheckingToken(true);
@@ -47,11 +52,18 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className="relative">
       <section className="flex items-center justify-center h-screen">
-        <h1 className="text-2xl font-bold">Página Principal</h1>
+        <NavigationBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+       
+
+        <main className="flex-1 py-4 px-8 h-full">
+          {currentPage === 'dashboard' && <DashboardPage/>}
+          {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal}/>}
+        </main>
+
       </section>
       <SessionExpiredModal isOpen={sessionExpired} />
-    </>
+    </div>
   );
 }
