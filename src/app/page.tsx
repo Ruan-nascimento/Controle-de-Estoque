@@ -9,6 +9,7 @@ import { Spinner } from "./components/spinner";
 import { NavigationBar, NavProps } from "./components/layouts/navigationBar";
 import { DashboardPage } from "./components/pages/dashboard";
 import { StockPage } from "./components/pages/stock";
+import { AddNewItemModal } from "./components/Modals/AddNewItemModal";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
   const [sessionExpired, setSessionExpired] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<NavProps>("dashboard")
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false)
 
   useEffect(() => {
     setCheckingToken(true);
@@ -59,11 +61,12 @@ export default function Home() {
 
         <main className="flex-1 py-4 px-8 h-full">
           {currentPage === 'dashboard' && <DashboardPage/>}
-          {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal}/>}
+          {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal} openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
         </main>
 
       </section>
       <SessionExpiredModal isOpen={sessionExpired} />
+      {openAddModal && <AddNewItemModal openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
     </div>
   );
 }

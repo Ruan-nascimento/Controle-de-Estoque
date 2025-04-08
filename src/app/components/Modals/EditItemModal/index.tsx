@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { TextInput } from "../../Inputs/textInputs";
 import { GeneralButton } from "../../ButtonGeneral";
 import { Item } from "@/app/controllers/getAllItems";
@@ -30,14 +32,19 @@ export const EditItemModal = ({ setOpenEditModal, selectedItem, onUpdate }: Edit
 
     const updatedFields: Partial<Item> = {};
 
-    if (title !== selectedItem.name) {
-      updatedFields.name = title;
+    // Transforma os campos de texto em minúsculas antes de comparar e enviar
+    const titleLower = title.toLowerCase();
+    const typeLower = type.toLowerCase();
+    const flavorLower = flavor.toLowerCase();
+
+    if (titleLower !== selectedItem.name) {
+      updatedFields.name = titleLower;
     }
-    if (type !== selectedItem.type) {
-      updatedFields.type = type;
+    if (typeLower !== selectedItem.type) {
+      updatedFields.type = typeLower;
     }
-    if (flavor !== selectedItem.flavor) {
-      updatedFields.flavor = flavor; // Novo campo
+    if (flavorLower !== selectedItem.flavor) {
+      updatedFields.flavor = flavorLower;
     }
     if (quantity !== selectedItem.qtd) {
       updatedFields.qtd = quantity;
@@ -61,6 +68,19 @@ export const EditItemModal = ({ setOpenEditModal, selectedItem, onUpdate }: Edit
       toast.error(error instanceof Error ? error.message : "Erro desconhecido");
     }
   };
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpenEditModal(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [setOpenEditModal]);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">

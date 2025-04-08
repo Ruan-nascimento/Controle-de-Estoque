@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { BoxIcon, Filter, Plus, Trash } from "lucide-react";
 import { ItemsTable } from "../../ItemsTable";
@@ -8,22 +10,29 @@ import { Item } from "@/app/controllers/getAllItems";
 import { EditItemModal } from "../../Modals/EditItemModal";
 import { toast } from "sonner";
 import { GeneralButton } from "../../ButtonGeneral";
-import { useItems } from "@/app/controllers/useItems";
 import { useDeleteItems } from "@/app/controllers/useDeleteItems";
-import {debounce} from 'lodash'
+import { debounce } from "lodash";
+import { useAppContext } from "@/lib/contexts/AppContext";
 
 interface StockProps {
   setOpenEditModal: (val: boolean) => void;
+  setOpenAddModal: (val: boolean) => void;
+  openAddModal: boolean;
 }
 
-export const StockPage = ({ setOpenEditModal: setOpenEditModalParent }: StockProps) => {
+export const StockPage = ({
+  setOpenEditModal: setOpenEditModalParent,
+  setOpenAddModal,
+  openAddModal,
+}: StockProps) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const { items, loading, error, refetch } = useItems(); 
+
+  const { items, loading, error, refetch } = useAppContext();
   const { deleteItems, loading: deleteLoading, error: deleteError } = useDeleteItems();
 
   const filterButtonRef = useRef<HTMLDivElement>(null);
@@ -67,7 +76,7 @@ export const StockPage = ({ setOpenEditModal: setOpenEditModalParent }: StockPro
       await deleteItems(selectedIds);
       toast.success("Itens deletados com sucesso!");
       setSelectedIds([]);
-      await refetch(); // Refetch para atualizar os dados
+      await refetch(); 
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Erro desconhecido");
     }
@@ -84,12 +93,16 @@ export const StockPage = ({ setOpenEditModal: setOpenEditModalParent }: StockPro
 
           <div className="flex gap-4 justify-between">
             <div className="flex gap-2 items-center">
-              <GeneralButton type="button" disabled={false}>
+              <GeneralButton
+                onClick={() => setOpenAddModal(true)}
+                type="button"
+                disabled={openAddModal}
+              >
                 <Plus /> Adicionar
               </GeneralButton>
               <div className="relative" ref={filterButtonRef}>
                 <GeneralButton
-                  disabled={false}
+                  disabled={isFilterModalOpen}
                   type="button"
                   onClick={() => setIsFilterModalOpen(!isFilterModalOpen)}
                 >
@@ -126,6 +139,7 @@ export const StockPage = ({ setOpenEditModal: setOpenEditModalParent }: StockPro
         <ItemsTable
           onSelectionChange={(ids) => setSelectedIds(ids)}
           columnFilters={columnFilters}
+          setColumnFilters={setColumnFilters}
           setOpenEditModal={handleOpenEditModal}
           searchTerm={searchTerm}
           items={items}
@@ -135,15 +149,11 @@ export const StockPage = ({ setOpenEditModal: setOpenEditModalParent }: StockPro
         />
       </div>
 
-      <footer className="bg-zinc-900 h-16 flex items-center justify-center text-gray-700">
-        Controler
-      </footer>
-
       {openEditModal && (
         <EditItemModal
           setOpenEditModal={setOpenEditModal}
           selectedItem={selectedItem}
-          onUpdate={refetch}
+          onUpdate={refetch} 
         />
       )}
     </section>

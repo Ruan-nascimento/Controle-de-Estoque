@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input"
 import { Edit } from "lucide-react"
 import { ChangeEvent, Dispatch, HTMLAttributes, SetStateAction, useState } from "react"
 
@@ -25,9 +26,9 @@ export const TextInput = ({disabled, func, label, placeholder, valueInput, ...re
     }
 
     return(
-        <div className="w-full relative">
+        <div className="w-full relative flex flex-col gap-2">
             <label htmlFor="input" className={`${onFocus ? 'text-cyan-600' : 'text-zinc-200'} text-md font-semibold`}>{label ? label : 'Label'}</label>
-            <input
+            <Input
             {...rest}
             value={inputValue === '' && !isEditable ? valueInput : inputValue}
             disabled={disabled}
@@ -36,8 +37,6 @@ export const TextInput = ({disabled, func, label, placeholder, valueInput, ...re
             onChange={handleChangeInput}
             placeholder={isEditable ? placeholder : 'Bloqueado'}
             id="input"
-            className={`w-full h-10 outline-none pr-12 text-zinc-200 px-4 border-2 rounded-lg 
-                ${isEditable ? 'bg-zinc-700/50' : 'bg-zinc-900/50 border-zinc-200/30'}`}
             />
 
             <span
