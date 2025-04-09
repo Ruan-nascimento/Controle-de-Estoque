@@ -1,8 +1,27 @@
-import { useState, useEffect } from 'react';
-import { Item } from '@/app/controllers/getAllItems';
-import { API_URL } from '@/lib/utils';
+"use client";
 
-export function useItems() {
+import { API_URL } from "@/lib/utils";
+import { useState, useEffect } from "react";
+
+interface Item {
+  id: string;
+  name: string;
+  flavor: string;
+  value: number;
+  qtd: number;
+  status: string;
+  type: string;
+  createdAt: string;
+}
+
+interface UseItemsReturn {
+  items: Item[];
+  loading: boolean;
+  error: string | null;
+  refetchItems: () => Promise<void>; 
+}
+
+export const useItems = (): UseItemsReturn => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,21 +29,25 @@ export function useItems() {
   const fetchItems = async () => {
     try {
       setLoading(true);
+      setError(null);
+
       const response = await fetch(`${API_URL}/api/items`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao buscar itens');
+        throw new Error("Erro ao buscar os itens");
       }
 
       const data = await response.json();
-      setItems(data);
+      setItems(data || []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
+      const errorMessage =
+        err instanceof Error ? err.message : "Erro desconhecido";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -34,5 +57,5 @@ export function useItems() {
     fetchItems();
   }, []);
 
-  return { items, loading, error, refetch: fetchItems };
-}
+  return { items, loading, error, refetchItems: fetchItems };
+};

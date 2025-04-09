@@ -47,7 +47,7 @@ export const FilterModal = ({ onClose, onApplyFilters }: FilterModalProps) => {
   };
 
   return (
-    <div className="w-80 bg-zinc-900 border absolute -top-30 left-78 border-zinc-700 rounded-lg p-6 shadow-lg z-10 max-h-[80vh] overflow-y-auto">
+    <div className="w-80 bg-zinc-900 border absolute -top-30 left-78 border-zinc-700 rounded-lg p-6 shadow-lg z-10 max-h-[80vh] overflow-y-auto custom-scrollbar">
       <h3 className="text-lg font-semibold text-white mb-6">Filtros</h3>
 
       {loading && (
@@ -59,7 +59,7 @@ export const FilterModal = ({ onClose, onApplyFilters }: FilterModalProps) => {
 
       <div className="mb-6">
         <h4 className="text-sm text-zinc-200 mb-2">Tipo</h4>
-        <div className="grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] gap-2 max-h-[calc(10_*_1.75rem)] overflow-y-auto">
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] gap-2 max-h-[calc(10_*_1.75rem)] overflow-y-auto custom-scrollbar">
           {filterOptions.types.map((type) => (
             <div key={type} className="flex items-center gap-2">
               <Checkbox
@@ -81,7 +81,7 @@ export const FilterModal = ({ onClose, onApplyFilters }: FilterModalProps) => {
 
       <div className="mb-6">
         <h4 className="text-sm text-zinc-200 mb-2">Sabor</h4>
-        <div className="grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] gap-2 max-h-[calc(10_*_1.75rem)] overflow-y-auto">
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] gap-2 max-h-[calc(10_*_1.75rem)] overflow-y-auto custom-scrollbar">
           {filterOptions.flavors.map((flavor) => (
             <div key={flavor} className="flex items-center gap-2">
               <Checkbox
@@ -103,7 +103,7 @@ export const FilterModal = ({ onClose, onApplyFilters }: FilterModalProps) => {
 
       <div className="mb-6">
         <h4 className="text-sm text-zinc-200 mb-2">Status</h4>
-        <div className="grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] gap-2 max-h-[calc(10_*_1.75rem)] overflow-y-auto">
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(90px,_1fr))] gap-2 max-h-[calc(10_*_1.75rem)] overflow-y-auto custom-scrollbar">
           {filterOptions.statuses.map((status) => (
             <div key={status} className="flex items-center gap-2">
               <Checkbox

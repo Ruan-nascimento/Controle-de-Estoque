@@ -19,3 +19,21 @@ model Item {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
+
+model Sale {
+  id        String     @id @default(uuid())
+  total     Float   
+  createdAt DateTime   @default(now())
+  items     SaleItem[]
+}
+
+model SaleItem {
+  id        String   @id @default(uuid())
+  saleId    String
+  sale      Sale     @relation(fields: [saleId], references: [id])
+  name      String 
+  flavor    String  
+  unitPrice Float 
+  quantity  Int    
+  createdAt DateTime @default(now())
+}

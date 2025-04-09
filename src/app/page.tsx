@@ -10,6 +10,7 @@ import { NavigationBar, NavProps } from "./components/layouts/navigationBar";
 import { DashboardPage } from "./components/pages/dashboard";
 import { StockPage } from "./components/pages/stock";
 import { AddNewItemModal } from "./components/Modals/AddNewItemModal";
+import { SellPage } from "./components/pages/sell";
 
 
 export default function Home() {
@@ -62,6 +63,7 @@ export default function Home() {
         <main className="flex-1 py-4 px-8 h-full">
           {currentPage === 'dashboard' && <DashboardPage/>}
           {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal} openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
+          {currentPage === 'sell' && <SellPage/>}
         </main>
 
       </section>
