@@ -11,6 +11,7 @@ import { DashboardPage } from "./components/pages/dashboard";
 import { StockPage } from "./components/pages/stock";
 import { AddNewItemModal } from "./components/Modals/AddNewItemModal";
 import { SellPage } from "./components/pages/sell";
+import { HistoricPage } from "./components/pages/dashboard/historic";
 
 
 export default function Home() {
@@ -64,6 +65,7 @@ export default function Home() {
           {currentPage === 'dashboard' && <DashboardPage/>}
           {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal} openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
           {currentPage === 'sell' && <SellPage/>}
+          {currentPage === 'historic' && <HistoricPage/>}
         </main>
 
       </section>

@@ -115,7 +115,7 @@ export const SellPage = () => {
       <div className="w-full h-full flex flex-col gap-4">
         <header className="flex justify-between">
           <Input
-            className="w-[30%]"
+            className="w-[30%] bg-zinc-800"
             placeholder="Pesquisar..."
             onChange={(e) => setFindItem(e.target.value)}
             value={findItem ? findItem : ""}
@@ -125,7 +125,7 @@ export const SellPage = () => {
             <Button
               onClick={() => setOpenAside(true)}
               disabled={openAside}
-              className="bg-blue-600 relative cursor-pointer duration-200 ease-in-out hover:bg-blue-600/80 disabled:bg-blue-600/50"
+              className="bg-cyan-600 relative cursor-pointer duration-200 ease-in-out hover:bg-cyan-600/80 disabled:bg-cyan-600/50"
             >
               <span className="absolute -left-2 -top-2 bg-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs">
                 {totalItems}
@@ -180,14 +180,14 @@ export const SellPage = () => {
 
           <div className="flex justify-between items-center">
             <span className="text-xl flex gap-3 items-center font-bold">
-              Carrinho <ShoppingCartIcon className="text-blue-600" />
+              Carrinho <ShoppingCartIcon className="text-cyan-400" />
             </span>
             {cartItems.length > 0 && (
               <Button
                 onClick={handleClearCart}
-                className="bg-red-600/70 hover:bg-red-600/50 active:bg-red-600 p-2"
+                className="bg-zinc-600/70 h-6 hover:bg-zinc-600/50 active:bg-zinc-600 p-2"
               >
-                <Trash2Icon size={16} />
+                Limpar
               </Button>
             )}
           </div>
@@ -212,7 +212,7 @@ export const SellPage = () => {
             <Button
               onClick={handleConfirmSale}
               disabled={isConfirming}
-              className="w-full rounded-lg bg-blue-600 flex items-center gap-4 duration-200 hover:bg-blue-600/80 active:bg-blue-600/50 cursor-pointer"
+              className="w-full rounded-lg bg-cyan-600 flex items-center gap-4 duration-200 hover:bg-cyan-600/80 active:bg-cyan-600/50 cursor-pointer"
             >
               {isConfirming ? (
                 <Spinner className="w-6 h-6" />

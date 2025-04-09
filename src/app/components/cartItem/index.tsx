@@ -55,7 +55,7 @@ export const CartItemMod = ({ item }: CartItemProps) => {
           </button>
         </div>
 
-        <span className="text-blue-600 font-semibold">
+        <span className="text-cyan-400 font-semibold">
           R$ {totalValue.toFixed(2).split(".").join(",")}
         </span>
       </div>

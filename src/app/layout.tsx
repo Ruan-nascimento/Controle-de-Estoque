@@ -29,7 +29,7 @@ export default function RootLayout({
       <AppProvider>
         <CartProvider>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-900 text-zinc-200`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[url('/bg.svg')] bg-no-repeat bg-center bg-cover text-white`}
       >
         {children}
       </body>
