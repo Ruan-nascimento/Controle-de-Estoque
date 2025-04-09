@@ -1,28 +1,10 @@
-import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
 import { prisma } from "@/lib/utils";
+import { NextResponse } from "next/server";
 
-const cartFilePath = path.join(process.cwd(), "src/app/services/cartTemp.json");
-
-const readCart = async () => {
+export async function POST() {
   try {
-    const fileContent = await fs.readFile(cartFilePath, "utf-8");
-    return JSON.parse(fileContent);
-  } catch (error) {
-    const initialData = { cart: [] };
-    await fs.writeFile(cartFilePath, JSON.stringify(initialData, null, 2));
-    return initialData;
-  }
-};
-
-const writeCart = async (data: { cart: any[] }) => {
-  await fs.writeFile(cartFilePath, JSON.stringify(data, null, 2));
-};
-
-export async function POST(request: Request) {
-  try {
-    const { cartItems } = await request.json();
+    // Busca os itens do carrinho global no banco de dados
+    const cartItems = await prisma.cartItem.findMany();
 
     if (!cartItems || cartItems.length === 0) {
       return NextResponse.json(
@@ -42,7 +24,7 @@ export async function POST(request: Request) {
       // 1. Atualiza a quantidade (qtd) dos itens em estoque
       for (const cartItem of cartItems) {
         const item = await tx.item.findUnique({
-          where: { id: cartItem.id },
+          where: { id: cartItem.itemId },
         });
 
         if (!item) {
@@ -57,7 +39,7 @@ export async function POST(request: Request) {
         }
 
         await tx.item.update({
-          where: { id: cartItem.id },
+          where: { id: cartItem.itemId },
           data: { qtd: newQtd },
         });
       }
@@ -81,10 +63,10 @@ export async function POST(request: Request) {
           createdAt: new Date(),
         })),
       });
-    });
 
-    // 4. Limpa o carrinho (cartTemp.json)
-    await writeCart({ cart: [] });
+      // 4. Limpa o carrinho global no banco de dados
+      await tx.cartItem.deleteMany();
+    });
 
     return NextResponse.json(
       { message: "Venda confirmada com sucesso!" },

@@ -1,3 +1,15 @@
 {
-  "cart": []
+  "cart": [
+    {
+      "id": "8046d856-b5f4-4e6f-9df3-b96d950fe22a",
+      "name": "kopão",
+      "flavor": "toffee",
+      "value": 13,
+      "quantity": 1,
+      "status": "Suficiente",
+      "qtd": 15,
+      "type": "sorvete",
+      "createdAt": "2025-04-08T23:32:45.844Z"
+    }
+  ]
 }

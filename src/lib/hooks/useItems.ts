@@ -1,25 +1,27 @@
-import { useState, useEffect } from 'react';
-import { API_URL } from '../utils';
+"use client";
 
-export interface Item {
+import { API_URL } from "@/lib/utils";
+import { useState, useEffect } from "react";
+
+interface Item {
   id: string;
   name: string;
-  type?: string;
-  qtd?: number;
-  value?: number;
-  flavor?: string;
-  status?: string;
-
+  flavor: string;
+  value: number;
+  qtd: number;
+  status: string;
+  type: string;
+  createdAt: string;
 }
 
-interface UseItemsResponse {
+interface UseItemsReturn {
   items: Item[];
   loading: boolean;
   error: string | null;
-  refetch: () => void;
+  refetchItems: () => Promise<void>;
 }
 
-export const useItems = (): UseItemsResponse => {
+export const useItems = (): UseItemsReturn => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,20 +32,21 @@ export const useItems = (): UseItemsResponse => {
       setError(null);
 
       const response = await fetch(`${API_URL}/api/items`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao buscar itens');
+        throw new Error("Erro ao buscar os itens");
       }
 
-      const data: Item[] = await response.json();
-      setItems(data);
+      const data = await response.json();
+      setItems(data || []);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
+      const errorMessage =
+        err instanceof Error ? err.message : "Erro desconhecido";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -54,10 +57,5 @@ export const useItems = (): UseItemsResponse => {
     fetchItems();
   }, []);
 
-  return {
-    items,
-    loading,
-    error,
-    refetch: fetchItems,
-  };
+  return { items, loading, error, refetchItems: fetchItems };
 };

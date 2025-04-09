@@ -17,7 +17,7 @@ export const SellPage = () => {
   const [findItem, setFindItem] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [isConfirming, setIsConfirming] = useState<boolean>(false); // Estado para o loading do botão Confirmar
+  const [isConfirming, setIsConfirming] = useState<boolean>(false);
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalValue = cartItems.reduce(
@@ -76,7 +76,7 @@ export const SellPage = () => {
     try {
       setIsConfirming(true);
       await confirmSale();
-      await refetch(); 
+      await refetch();
       await refetchItems();
       setSuccessMessage("Venda confirmada com sucesso!");
       setErrorMessage(null);
@@ -86,7 +86,7 @@ export const SellPage = () => {
       );
       setSuccessMessage(null);
     } finally {
-      setIsConfirming(false); 
+      setIsConfirming(false);
     }
   };
 
@@ -146,7 +146,7 @@ export const SellPage = () => {
             itemsFounded.map((item) =>
               item.qtd > 0 ? (
                 <AddItemToCart
-                    qtd={item.qtd}
+                  qtd={item.qtd}
                   key={item.id}
                   flavor={item.flavor}
                   item={item.name}
@@ -158,9 +158,9 @@ export const SellPage = () => {
           ) : (
             items.map((item) => (
               <AddItemToCart
+                qtd={item.qtd}
                 key={item.id}
                 flavor={item.flavor}
-                qtd={item.qtd}
                 item={item.name}
                 value={item.value}
                 cart={() => handleAddToCart(item)}

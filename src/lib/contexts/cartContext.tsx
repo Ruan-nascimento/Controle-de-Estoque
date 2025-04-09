@@ -6,6 +6,7 @@ import { useContext } from "react";
 
 interface CartItem {
   id: string;
+  itemId: string;
   name: string;
   flavor: string;
   value: number;
@@ -62,7 +63,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addToCart = async (item: any) => {
     try {
-      const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
+      const existingItem = cartItems.find((cartItem) => cartItem.itemId === item.id);
 
       if (existingItem) {
         const newQuantity = existingItem.quantity + 1;
@@ -71,7 +72,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             `Não é possível adicionar mais unidades de ${existingItem.name}. Estoque máximo atingido (${existingItem.qtd} unidades).`
           );
         }
-        await updateQuantity(item.id, newQuantity);
+        await updateQuantity(existingItem.id, newQuantity);
         return;
       }
 
@@ -81,7 +82,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         );
       }
 
-      const newItem = { ...item, quantity: 1 };
+      const newItem = { ...item, quantity: 1, itemId: item.id };
       setCartItems((prevItems) => [...prevItems, newItem]);
 
       const response = await fetch(`${API_URL}/api/cart`, {
@@ -94,7 +95,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       if (!response.ok) {
         setCartItems((prevItems) =>
-          prevItems.filter((cartItem) => cartItem.id !== item.id)
+          prevItems.filter((cartItem) => cartItem.itemId !== item.id)
         );
         throw new Error("Erro ao adicionar item ao carrinho");
       }
@@ -210,7 +211,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const confirmSale = async () => {
-    setLoading(true)
     try {
       if (cartItems.length === 0) {
         throw new Error("O carrinho está vazio. Adicione itens antes de confirmar a venda.");
@@ -221,7 +221,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cartItems }),
       });
 
       const data = await response.json();
@@ -237,8 +236,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         err instanceof Error ? err.message : "Erro ao confirmar a venda";
       setError(errorMessage);
       throw err;
-    } finally {
-        setLoading(false)
     }
   };
 

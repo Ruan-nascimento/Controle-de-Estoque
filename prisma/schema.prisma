@@ -37,3 +37,14 @@ model SaleItem {
   quantity  Int    
   createdAt DateTime @default(now())
 }
+
+model CartItem {
+  id        String   @id @default(uuid())
+  itemId    String
+  name      String
+  flavor    String
+  value     Float
+  quantity  Int
+  qtd       Int  
+  createdAt DateTime @default(now())
+}

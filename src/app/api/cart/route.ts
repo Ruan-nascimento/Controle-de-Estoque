@@ -1,31 +1,13 @@
+import { prisma } from "@/lib/utils";
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
-
-const cartFilePath = path.join(process.cwd(), "src/app/services/cartTemp.json");
-
-const readCart = async () => {
-  try {
-    const fileContent = await fs.readFile(cartFilePath, "utf-8");
-    return JSON.parse(fileContent);
-  } catch (error) {
-    const initialData = { cart: [] };
-    await fs.writeFile(cartFilePath, JSON.stringify(initialData, null, 2));
-    return initialData;
-  }
-};
-
-const writeCart = async (data: { cart: any[] }) => {
-  await fs.writeFile(cartFilePath, JSON.stringify(data, null, 2));
-};
 
 export async function GET() {
   try {
-    const cartData = await readCart();
-    return NextResponse.json(cartData, { status: 200 });
+    const cartItems = await prisma.cartItem.findMany();
+    return NextResponse.json({ cart: cartItems }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Erro ao ler o carrinho" },
+      { error: "Erro ao buscar o carrinho" },
       { status: 500 }
     );
   }
@@ -34,20 +16,41 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const newItem = await request.json();
-    const cartData = await readCart();
 
-    const existingItemIndex = cartData.cart.findIndex(
-      (item: any) => item.id === newItem.id
-    );
+    // Verifica se o item já existe no carrinho
+    const existingItem = await prisma.cartItem.findFirst({
+      where: {
+        itemId: newItem.id,
+      },
+    });
 
-    if (existingItemIndex !== -1) {
-      cartData.cart[existingItemIndex].quantity += 1;
-    } else {
-      cartData.cart.push({ ...newItem, quantity: newItem.quantity || 1 });
+    if (existingItem) {
+      // Se o item já existe, atualiza a quantidade
+      const newQuantity = existingItem.quantity + 1;
+      const updatedItem = await prisma.cartItem.update({
+        where: { id: existingItem.id },
+        data: { quantity: newQuantity },
+      });
+
+      const updatedCart = await prisma.cartItem.findMany();
+      return NextResponse.json({ cart: updatedCart }, { status: 200 });
     }
 
-    await writeCart(cartData);
-    return NextResponse.json(cartData, { status: 201 });
+    // Adiciona o novo item ao carrinho
+    const cartItem = await prisma.cartItem.create({
+      data: {
+        itemId: newItem.id,
+        name: newItem.name,
+        flavor: newItem.flavor,
+        value: newItem.value,
+        quantity: newItem.quantity || 1,
+        qtd: newItem.qtd,
+        createdAt: new Date(),
+      },
+    });
+
+    const updatedCart = await prisma.cartItem.findMany();
+    return NextResponse.json({ cart: updatedCart }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Erro ao adicionar item ao carrinho" },
@@ -59,13 +62,20 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const { id, quantity } = await request.json();
-    const cartData = await readCart();
 
-    const updatedCart = cartData.cart.map((item: any) =>
-      item.id === id ? { ...item, quantity } : item
-    );
+    const updatedItem = await prisma.cartItem.updateMany({
+      where: { id },
+      data: { quantity },
+    });
 
-    await writeCart({ cart: updatedCart });
+    if (updatedItem.count === 0) {
+      return NextResponse.json(
+        { error: "Item não encontrado no carrinho" },
+        { status: 404 }
+      );
+    }
+
+    const updatedCart = await prisma.cartItem.findMany();
     return NextResponse.json({ cart: updatedCart }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -78,11 +88,12 @@ export async function PATCH(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const { id } = await request.json();
-    const cartData = await readCart();
 
-    const updatedCart = cartData.cart.filter((item: any) => item.id !== id);
+    await prisma.cartItem.deleteMany({
+      where: { id },
+    });
 
-    await writeCart({ cart: updatedCart });
+    const updatedCart = await prisma.cartItem.findMany();
     return NextResponse.json({ cart: updatedCart }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -94,12 +105,12 @@ export async function DELETE(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const { cart } = await request.json();
-    await writeCart({ cart }); 
-    return NextResponse.json({ cart }, { status: 200 });
+    await prisma.cartItem.deleteMany();
+
+    return NextResponse.json({ cart: [] }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Erro ao atualizar o carrinho" },
+      { error: "Erro ao esvaziar o carrinho" },
       { status: 500 }
     );
   }
