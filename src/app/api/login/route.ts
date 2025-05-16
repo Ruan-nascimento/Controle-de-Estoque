@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import bcrypt from 'bcryptjs';
 
-const generatePasswordHash = async (password: string) => {
-    return await bcrypt.hash(password, 10);
-};
-
-
-const PASSWORD_HASH = await generatePasswordHash(process.env.PASSWORD as string);
 
 export async function POST(request: NextRequest) {
     try {
@@ -22,22 +15,14 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const storedPasswordHash = process.env.PASSWORD_HASH || PASSWORD_HASH;
+        const admPassword = process.env.PASSWORD_ADM;
+        const userPassword = process.env.PASSWORD;
         const jwtSecret = process.env.SECRET_KEY;
 
-        if (!storedPasswordHash || !jwtSecret) {
+        if (!admPassword || !jwtSecret || !userPassword) {
             return NextResponse.json(
                 { error: 'Configuração do servidor incompleta' },
                 { status: 500 }
-            );
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, storedPasswordHash);
-
-        if (!isPasswordValid) {
-            return NextResponse.json(
-                { error: 'Senha inválida' },
-                { status: 401 }
             );
         }
 
@@ -47,21 +32,41 @@ export async function POST(request: NextRequest) {
             { expiresIn: '1d' }
         );
 
-        const cookie = serialize('auth_token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 24 * 60 * 60,
-            path: '/',
-            sameSite: 'strict',
-        });
 
-        const response = NextResponse.json(
-            { message: 'Autenticação bem-sucedida' },
-            { status: 200 }
-        );
+        if (password === admPassword) {
+            const cookie = serialize('auth_token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 24 * 60 * 60,
+                path: '/',
+                sameSite: 'strict'
+            })
 
-        response.headers.set('Set-Cookie', cookie);
-        return response;
+            const response = NextResponse.json({message: 'Adm Autenticado com Sucesso!'}, {status: 200})
+
+            response.headers.set('Set-Cookie', cookie)
+
+            return response
+
+        } else if (password === userPassword) {
+            const cookie = serialize('user_token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 24 * 60 * 60,
+                path: '/',
+                sameSite: 'strict'
+            })
+
+            const response = NextResponse.json({message: 'Usuário Autenticado com Sucesso!'}, {status: 200})
+
+            response.headers.set('Set-Cookie', cookie)
+
+            return response
+
+        } else {
+            return NextResponse.json({error: 'Senha Inválida'}, {status: 400})
+        }
+
 
     } catch (error: any) {
         console.error('Erro na autenticação:', error.message); 

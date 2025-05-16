@@ -3,9 +3,12 @@ import jwt from 'jsonwebtoken';
 
 export async function GET(request: NextRequest) {
     try {
-        const token = request.cookies.get('auth_token')?.value;
+        const auth = request.cookies.get('auth_token')?.value
+        const user = request.cookies.get('user_token')?.value
 
-        if (!token) {
+
+        if (!auth && !user) {
+            console.log('Não tem token')
             return NextResponse.json(
                 { error: 'Token não encontrado' },
                 { status: 401 }
@@ -20,12 +23,24 @@ export async function GET(request: NextRequest) {
         );
     }
 
-        const decoded = jwt.verify(token, jwtSecret);
+        if(user) {
 
-        return NextResponse.json(
-            { message: 'Token válido', user: decoded },
+            const decoded = jwt.verify(user, jwtSecret);
+            return NextResponse.json(
+            { message: 'Token válido', user: decoded, name: 'user_token'},
             { status: 200 }
         );
+        } 
+        else {
+
+            const decoded = jwt.verify(auth!, jwtSecret);
+            return NextResponse.json(
+            { message: 'Token válido', user: decoded, name: 'auth_token'},
+            { status: 200 })
+
+        }
+
+        
 
     } catch (error: any) {
         console.error("Erro na verificação do token:", error.message);

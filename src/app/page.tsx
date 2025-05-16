@@ -11,16 +11,17 @@ import { DashboardPage } from "./components/pages/dashboard";
 import { StockPage } from "./components/pages/stock";
 import { AddNewItemModal } from "./components/Modals/AddNewItemModal";
 import { SellPage } from "./components/pages/sell";
-import { HistoricPage } from "./components/pages/dashboard/historic";
+import { HistoricPage } from "./components/pages/historic";
 
 
 export default function Home() {
   const router = useRouter();
   const [checkingToken, setCheckingToken] = useState<boolean>(true);
   const [sessionExpired, setSessionExpired] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<NavProps>("dashboard")
+  const [currentPage, setCurrentPage] = useState<NavProps>("sell")
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
+  const [tokenType, setTokenType] = useState<"auth_token" | "user_token" | null>(null)
 
   useEffect(() => {
     setCheckingToken(true);
@@ -31,10 +32,15 @@ export default function Home() {
           credentials: "include",
         });
 
+
         if (!response.ok) {
           setSessionExpired(true)
           toast.error("Sessão expirada. Faça login novamente.")
         } else {
+
+          const data = await response.json()
+          setTokenType(data.name)
+
           toast.success("Bem-vindo de volta!");
         }
       } catch (err) {
@@ -58,17 +64,18 @@ export default function Home() {
   return (
     <div className="relative">
       <section className="flex items-center justify-center h-screen">
-        <NavigationBar currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+        <NavigationBar currentPage={currentPage} setCurrentPage={setCurrentPage} tokenType={tokenType}/>
        
 
         <main className="flex-1 py-4 px-8 h-full">
           {currentPage === 'dashboard' && <DashboardPage/>}
-          {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal} openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
           {currentPage === 'sell' && <SellPage/>}
+          {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal} openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
           {currentPage === 'historic' && <HistoricPage/>}
         </main>
 
       </section>
+
       <SessionExpiredModal isOpen={sessionExpired} />
       {openAddModal && <AddNewItemModal openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
     </div>
