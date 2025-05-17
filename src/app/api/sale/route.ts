@@ -47,6 +47,7 @@ export async function POST() {
       // 2. Cria a venda na tabela Sale
       const sale = await tx.sale.create({
         data: {
+          codeOfSell: "VEN" + (Math.floor(Math.random() * (10000 - 100 + 1))+100),
           total: totalValue,
           createdAt: new Date(),
         },

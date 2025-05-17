@@ -22,6 +22,7 @@ model Item {
 
 model Sale {
   id        String     @id @default(uuid())
+  codeOfSell String
   total     Float   
   createdAt DateTime   @default(now())
   items     SaleItem[]

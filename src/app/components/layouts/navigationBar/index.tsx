@@ -45,6 +45,25 @@ export const NavigationBar = ({currentPage, setCurrentPage, tokenType}: {current
                 
                 ["dashboard", "sell", "stock", "historic"].map((page) => {
                     return(
+                        tokenType === 'auth_token' ? (
+                            <ButtonNavigateBar 
+                            key={page}
+                            typed={page} 
+                            current_page={currentPage}
+                            onClick={() => setCurrentPage(page)}
+                            className="text-lg font-semibold"
+                            >
+                            {
+                                page === 'dashboard' ? <span className="flex items-center gap-4"><LayoutDashboard className="text-cyan-400"/> Painel</span> : 
+                                page === 'sell' ? <span className="flex items-center gap-4"><Coins className="text-cyan-400"/> Vendas</span> :
+                                page === 'stock' ? <span className="flex items-center gap-4"><BoxesIcon className="text-cyan-400"/> Estoque</span> : 
+                                page === 'historic' ? <span className="flex items-center gap-4"><Clock10Icon className="text-cyan-400"/> Histórico</span> : ''
+                                
+                            }
+                        </ButtonNavigateBar>
+                        ) 
+                        :
+                        page != 'dashboard' && page != 'stock' && (
                         <ButtonNavigateBar 
                         key={page}
                         typed={page} 
@@ -53,18 +72,13 @@ export const NavigationBar = ({currentPage, setCurrentPage, tokenType}: {current
                         className="text-lg font-semibold"
                         >
                             {
-                                tokenType === 'auth_token' ? (
-                                    page === 'dashboard' ? <span className="flex items-center gap-4"><LayoutDashboard className="text-cyan-400"/> Painel</span> : 
-                                    page === 'sell' ? <span className="flex items-center gap-4"><Coins className="text-cyan-400"/> Vendas</span> :
-                                    page === 'stock' ? <span className="flex items-center gap-4"><BoxesIcon className="text-cyan-400"/> Estoque</span> : 
-                                    page === 'historic' ? <span className="flex items-center gap-4"><Clock10Icon className="text-cyan-400"/> Histórico</span> : ''
-                                ) :
-                                (
-                                   page === 'sell' ? <span className="flex items-center gap-4"><Coins className="text-cyan-400"/> Vendas</span> : 
-                                   page === 'historic' ? <span className="flex items-center gap-4"><Clock10Icon className="text-cyan-400"/> Histórico</span> : ''
-                                )
+                                page === 'sell' ? <span className="flex items-center gap-4"><Coins className="text-cyan-400"/> Vendas</span> :
+                                page === 'historic' ? <span className="flex items-center gap-4"><Clock10Icon className="text-cyan-400"/> Histórico</span> : ''
+                                
                             }
                         </ButtonNavigateBar>
+                        )
+
                     )
                 })
                 
