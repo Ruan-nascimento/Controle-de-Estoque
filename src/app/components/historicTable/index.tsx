@@ -7,9 +7,12 @@ import { useState } from "react"
 interface HistoricTableProps {
     setDateFilterModal: (val: boolean) => void
     dateFilter: boolean
+    hasFilter: boolean
+    dataFim: string | undefined
+    dataInicio: string | undefined
 }
 
-export const HistoricTable = ({setDateFilterModal, dateFilter}:HistoricTableProps) => {
+export const HistoricTable = ({setDateFilterModal, dateFilter, hasFilter, dataFim, dataInicio}:HistoricTableProps) => {
 
     const [search, setSearch] = useState<string>('')
 
@@ -26,7 +29,7 @@ export const HistoricTable = ({setDateFilterModal, dateFilter}:HistoricTableProp
                 
                 <Button
                 onClick={() => setDateFilterModal(true)}
-                className={`p-3 bg-transparent border duration-200 ease-in-out hover:bg-cyan-700/80 cursor-pointer ${dateFilter && 'bg-cyan-600'}`}
+                className={`p-3 bg-transparent border duration-200 ease-in-out hover:bg-cyan-700/80 cursor-pointer ${dateFilter && 'bg-cyan-600'} ${hasFilter && 'boder bg-cyan-600'}`}
                 >Filtrar Por Data</Button>
 
                 <div className="max-w-[40%] w-full relative h-10">
@@ -39,7 +42,7 @@ export const HistoricTable = ({setDateFilterModal, dateFilter}:HistoricTableProp
 
             </header>
 
-            <HistoricTableComponent founded={search}/>
+            <HistoricTableComponent dataFim={dataFim} dataInicio={dataInicio} founded={search}/>
         </main>
     )
 }

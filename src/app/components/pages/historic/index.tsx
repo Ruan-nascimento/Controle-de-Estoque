@@ -6,6 +6,9 @@ export const HistoricPage = () => {
 
     const [dateFilterModal, setDateFilterModal] = useState<boolean>(false)
     const [mouseInModal, setMouseInModal] = useState<boolean>(false)
+    const [hasFilter, setHasFilter] = useState<boolean>(false)
+    const [dataInicio, setDataInicio] = useState<string | undefined>(undefined);
+    const [dataFim, setDataFim] = useState<string | undefined>(undefined);
 
     const handleCloseDateFilterModal = () => {
         if(dateFilterModal && !mouseInModal) {
@@ -18,9 +21,9 @@ export const HistoricPage = () => {
     <section 
     onClick={handleCloseDateFilterModal}
     className="w-full h-full relative">
-        <HistoricTable setDateFilterModal={setDateFilterModal} dateFilter={dateFilterModal}/>
+        <HistoricTable dataFim={dataFim} dataInicio={dataInicio} setDateFilterModal={setDateFilterModal} dateFilter={dateFilterModal} hasFilter={hasFilter}/>
 
-        {dateFilterModal && <DateFilterModal setMouseInModal={setMouseInModal}/>}
+        {dateFilterModal && <DateFilterModal dataFim={dataFim} dataInicio={dataInicio} setDataFim={setDataFim} setDataInicio={setDataInicio} setMouseInModal={setMouseInModal} setDateFilterModal={setDateFilterModal} setHasFilter={setHasFilter}/>}
     </section>
     )
 }

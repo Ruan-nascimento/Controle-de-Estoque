@@ -49,3 +49,16 @@ model CartItem {
   qtd       Int  
   createdAt DateTime @default(now())
 }
+
+model FilterHistoric {
+  id  String @id @unique
+  start String
+  end String
+}
+
+model FilterStock {
+  id String @id @unique
+  kind String
+  flavor String
+  status String
+}
