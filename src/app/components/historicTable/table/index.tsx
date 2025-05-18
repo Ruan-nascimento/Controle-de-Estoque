@@ -4,6 +4,7 @@ import { API_URL } from "@/lib/utils";
 import { ptBR, tr } from "date-fns/locale";
 import {format, isWithinInterval } from 'date-fns'
 import { useEffect, useState } from "react";
+import { Spinner } from "../../spinner";
 
 interface HistoricTableComponentProps {
     founded?: string
@@ -32,13 +33,14 @@ export const HistoricTableComponent = ({founded, dataFim, dataInicio}:HistoricTa
 
     const [sell, setSell] = useState<items[]>([])
     const [itemsFiltered, setItemsFiltered] = useState<items[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
 
         const fetchItems = async () => {
 
             try{
-
+                setLoading(true)
                 const response = await fetch(`${API_URL}/api/historic`, {
                     method: 'GET',
                     credentials: 'include'
@@ -58,6 +60,8 @@ export const HistoricTableComponent = ({founded, dataFim, dataInicio}:HistoricTa
 
             } catch (error: any) {
                 console.log(error)
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -113,7 +117,7 @@ export const HistoricTableComponent = ({founded, dataFim, dataInicio}:HistoricTa
     const displaySales = founded || dataInicio || dataFim ? itemsFiltered : sell
 
   return (
-    <div>
+    <div className="relative">
       <table className="w-full border-collapse rounded-md shadow-sm">
         <thead>
           <tr className="bg-zinc-800 text-white">
@@ -124,8 +128,7 @@ export const HistoricTableComponent = ({founded, dataFim, dataInicio}:HistoricTa
           </tr>
         </thead>
         {
-        displaySales.length === 0 ?
-        <span>Nenhum Registro de Venda Disponivel</span>
+        loading ? <Spinner className="absolute top-20 left-1/2"/>
         :
         <tbody>
                 {
