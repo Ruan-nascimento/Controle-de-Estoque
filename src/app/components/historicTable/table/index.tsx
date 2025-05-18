@@ -34,6 +34,7 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
     const [itemsFiltered, setItemsFiltered] = useState<items[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
+
     useEffect(() => {
         const fetchItems = async () => {
             try {
@@ -62,7 +63,7 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
         };
 
         fetchItems();
-    }, []);
+    }, [dataFim?.toString(), dataInicio?.toString()]);
 
     useEffect(() => {
         const filtered = sell.filter(s => {
