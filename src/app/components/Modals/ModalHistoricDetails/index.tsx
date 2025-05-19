@@ -183,7 +183,7 @@ export const ModalHistoricDetails = ({ setMouseInModal }: ModalHistoricDetailsPr
           aria-label="Imprimir nota fiscal"
         >
           <PrinterIcon />
-          Imprimir Nota
+          Salvar Nota
         </Button>
       </div>
     </main>

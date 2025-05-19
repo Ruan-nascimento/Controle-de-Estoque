@@ -100,7 +100,7 @@ export const StockPage = ({
               >
                 <Plus /> Adicionar
               </GeneralButton>
-              <div className="relative" ref={filterButtonRef}>
+              {/*<div className="relative" ref={filterButtonRef}>
                 <GeneralButton
                   disabled={isFilterModalOpen}
                   type="button"
@@ -116,7 +116,7 @@ export const StockPage = ({
                     />
                   </div>
                 )}
-              </div>
+              </div>*/}
               <input
                 placeholder="Pesquisar..."
                 onChange={(e) => debouncedSetSearchTerm(e.target.value)}

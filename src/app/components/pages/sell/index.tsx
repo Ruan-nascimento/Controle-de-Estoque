@@ -18,6 +18,8 @@ export const SellPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isConfirming, setIsConfirming] = useState<boolean>(false);
+  const [sellComplete, setSellComplete] = useState<boolean>(false);
+  const [sellValue, setSellValue] = useState<number>(0)
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalValue = cartItems.reduce(
@@ -74,12 +76,17 @@ export const SellPage = () => {
 
   const handleConfirmSale = async () => {
     try {
+      setSellValue(totalValue)
       setIsConfirming(true);
       await confirmSale();
       await refetch();
       await refetchItems();
       setSuccessMessage("Venda confirmada com sucesso!");
       setErrorMessage(null);
+      setSellComplete(true)
+      const interval = setInterval(() => {
+        setSellComplete(false)
+      }, 3000)
     } catch (err) {
       setErrorMessage(
         err instanceof Error ? err.message : "Erro ao confirmar a venda"
@@ -111,7 +118,15 @@ export const SellPage = () => {
   }, [cartItems, openAside]);
 
   return (
-    <section className="w-full h-full flex gap-4">
+    <section className="w-full h-full flex gap-4 relative">
+
+      {sellComplete && (
+        <div className="right-1/2 flex items-center flex-col justify-center text-green-900 font-medium translate-x-1/2 bottom-20 absolute min-w-56 h-20 rounded-md bg-green-100/90 backdrop-blur-2xl z-10">
+        <span>Venda de <b className="text-green-600">R${sellValue.toFixed(2).replace('.', ',')}</b></span>
+        <span>feita com sucesso</span>
+      </div>
+      )}
+
       <div className="w-full h-full flex flex-col gap-4">
         <header className="flex justify-between">
           <Input
