@@ -84,7 +84,7 @@ export const SellPage = () => {
       setSuccessMessage("Venda confirmada com sucesso!");
       setErrorMessage(null);
       setSellComplete(true)
-      const interval = setInterval(() => {
+      setInterval(() => {
         setSellComplete(false)
       }, 3000)
     } catch (err) {

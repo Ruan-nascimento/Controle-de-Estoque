@@ -62,3 +62,8 @@ model FilterStock {
   flavor String
   status String
 }
+
+model Stats {
+  id Int @unique
+  meta Float
+}

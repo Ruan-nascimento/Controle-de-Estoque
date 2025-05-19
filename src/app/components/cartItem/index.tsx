@@ -37,7 +37,7 @@ export const CartItemMod = ({ item }: CartItemProps) => {
   const totalValue = item.value * item.quantity;
 
   return (
-    <div className="w-full border-b border-zinc-700 flex flex-col">
+    <div className="w-full border-b border-zinc-700 flex flex-col" title={item.name}>
       <span className="text-md font-bold">{item.name.toUpperCase()}</span>
 
       <span className="text-xs">
