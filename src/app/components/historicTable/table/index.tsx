@@ -5,6 +5,7 @@ import { ptBR } from "date-fns/locale";
 import { format, isWithinInterval, parse } from 'date-fns';
 import { useEffect, useState } from "react";
 import { Spinner } from "../../spinner";
+import { useHistoric } from "@/lib/contexts/historicContext";
 
 interface HistoricTableComponentProps {
     founded?: string;
@@ -21,7 +22,7 @@ interface saleItems {
   createdAt: string;
 }
 
-interface items {
+export interface items {
     id: string;
     codeOfSell: string;
     total: number;
@@ -33,7 +34,12 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
     const [sell, setSell] = useState<items[]>([]);
     const [itemsFiltered, setItemsFiltered] = useState<items[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const {setModalPrintOpen, setItem} = useHistoric()
 
+    const handleClickItem = (s:items) => {
+        setModalPrintOpen(true)
+        setItem(s)
+    }
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -69,7 +75,6 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
         const filtered = sell.filter(s => {
             let matches = true;
 
-            // Filtro por código da venda ou valor total
             if (founded) {
                 const search = founded.toLowerCase();
                 matches = matches && 
@@ -77,24 +82,23 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
                     s.total.toString().includes(search));
             }
 
-            // Filtro por intervalo de datas
             if (dataInicio && dataFim) {
                 try {
-                    // Converte dataInicio e dataFim de DD/MM/YYYY para Date
+
                     const startDate = parse(dataInicio, 'dd/MM/yyyy', new Date());
                     const endDate = parse(dataFim, 'dd/MM/yyyy', new Date());
 
-                    // Converte createdAt (assumindo formato YYYY-MM-DD) para Date
+ 
                     const saleDate = new Date(s.createdAt);
 
-                    // Verifica se a data da venda está dentro do intervalo
+
                     matches = matches && isWithinInterval(saleDate, {
                         start: startDate,
                         end: endDate,
                     });
                 } catch (error) {
                     console.error('Erro ao filtrar por datas:', error);
-                    matches = false; // Se houver erro na conversão, não incluir o item
+                    matches = false;
                 }
             }
 
@@ -126,6 +130,7 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
                     <tbody>
                         {displaySales.map(s => (
                             <tr
+                                onClick={() => handleClickItem(s)}
                                 key={s.id}
                                 className="duration-200 ease-in-out hover:bg-zinc-900/80 cursor-pointer"
                             >

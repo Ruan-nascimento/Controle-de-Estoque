@@ -27,10 +27,10 @@ export const HistoricTable = ({setDateFilterModal, dateFilter, hasFilter, dataFi
             className="flex items-center justify-end pr-8 gap-4 h-20 w-full bg-zinc-800 rounded-t-md border-b border-cyan-800/80"
             >
                 
-                <Button
+                {/*<Button
                 onClick={() => setDateFilterModal(true)}
                 className={`p-3 bg-transparent border duration-200 ease-in-out hover:bg-cyan-700/80 cursor-pointer ${dateFilter && 'bg-cyan-600'} ${hasFilter && 'boder bg-cyan-600'}`}
-                >Filtrar Por Data</Button>
+                >Filtrar Por Data</Button>*/}
 
                 <div className="max-w-[40%] w-full relative h-10">
                     <Input 

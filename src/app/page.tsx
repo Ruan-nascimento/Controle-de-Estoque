@@ -12,6 +12,7 @@ import { StockPage } from "./components/pages/stock";
 import { AddNewItemModal } from "./components/Modals/AddNewItemModal";
 import { SellPage } from "./components/pages/sell";
 import { HistoricPage } from "./components/pages/historic";
+import { HistoricProvider } from "@/lib/contexts/historicContext";
 
 
 export default function Home() {
@@ -71,7 +72,7 @@ export default function Home() {
           {currentPage === 'dashboard' && <DashboardPage/>}
           {currentPage === 'sell' && <SellPage/>}
           {currentPage === 'stock' && <StockPage setOpenEditModal={setOpenEditModal} openAddModal={openAddModal} setOpenAddModal={setOpenAddModal}/>}
-          {currentPage === 'historic' && <HistoricPage/>}
+          {currentPage === 'historic' && <HistoricProvider><HistoricPage/></HistoricProvider>}
         </main>
 
       </section>

@@ -7,6 +7,9 @@ export async function GET() {
         const itemsSelled = await prisma.sale.findMany({
             include: {
                 items: true
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
 
