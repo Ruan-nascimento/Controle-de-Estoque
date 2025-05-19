@@ -1,14 +1,18 @@
 import { API_URL } from "@/lib/utils";
 import { CheckCheckIcon, Edit2Icon } from "lucide-react";
 import { ChangeEvent, useState, useEffect } from "react";
+import { Spinner } from "../spinner";
+import { useDashboard } from "@/lib/contexts/dashboardContext";
 
 export const DailyTarget = () => {
   const [value, setValue] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchMeta = async () => {
       try {
+        setLoading(true)
         const meta = await fetch(`${API_URL}/api/stats`, {
           method: "GET",
           credentials: "include",
@@ -25,6 +29,8 @@ export const DailyTarget = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -101,6 +107,8 @@ export const DailyTarget = () => {
           <Edit2Icon />
         </button>
 
+        {loading && <Spinner className="absolute left-1/2"/>}
+
         <span className="absolute left-2 top-1/2 -translate-y-1/2 font-bold text-white text-3xl">
           R$
         </span>
@@ -111,7 +119,6 @@ export const DailyTarget = () => {
           disabled={disabled}
           type="text"
           className="w-full p-4 pl-14 pr-16 text-3xl outline-none border-b border-cyan-600 rounded-md text-white bg-zinc-700 disabled:bg-zinc-900 placeholder:text-xl"
-          placeholder="Meta diária"
         />
       </div>
     </div>
