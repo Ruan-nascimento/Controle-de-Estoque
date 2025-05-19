@@ -2,12 +2,14 @@ import { Button } from "@/components/ui/button"
 import { Calendar1Icon, CoinsIcon, LayoutGridIcon } from "lucide-react"
 import { useItems } from "@/lib/hooks/useItems"
 import { DailyTarget } from "../../dashboardWidgets/dailyTarget"
+import { DashboardProvider } from "@/lib/contexts/dashboardContext"
 
 export const DashboardPage = () => {
 
     const  {items} = useItems()
 
     return(
+        <DashboardProvider>
         <section
         className="w-full h-full flex flex-col gap-6"
         >
@@ -23,5 +25,6 @@ export const DashboardPage = () => {
 
             </main>
         </section>
+        </DashboardProvider>
     )
 }
