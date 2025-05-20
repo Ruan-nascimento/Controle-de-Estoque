@@ -3,9 +3,11 @@ import { CheckCheckIcon, Edit2Icon } from "lucide-react";
 import { ChangeEvent, useState, useEffect } from "react";
 import { Spinner } from "../spinner";
 import { useDashboard } from "@/lib/contexts/dashboardContext";
+import { PercentOfTarget } from "./percentOfTarget";
 
 export const DailyTarget = () => {
   const [value, setValue] = useState<string>("");
+  const [metaNum, setMetaNum] = useState<number>(0)
   const [disabled, setDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -25,7 +27,8 @@ export const DailyTarget = () => {
 
         const data = await meta.json();
         if (data.meta) {
-          setValue(Number(data.meta).toFixed(2).replace(".", ",")); 
+          setValue(Number(data.meta).toFixed(2).replace(".", ","));
+          setMetaNum(Number(data.meta)) 
         }
       } catch (error) {
         console.log(error);
@@ -121,6 +124,8 @@ export const DailyTarget = () => {
           className="w-full p-4 pl-14 pr-16 text-3xl outline-none border-b border-cyan-600 rounded-md text-white bg-zinc-700 disabled:bg-zinc-900 placeholder:text-xl"
         />
       </div>
+
+      <PercentOfTarget meta={metaNum}/>
     </div>
   );
 };

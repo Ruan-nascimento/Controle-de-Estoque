@@ -112,7 +112,7 @@ export const ModalHistoricDetails = ({ setMouseInModal }: ModalHistoricDetailsPr
     <main
       onMouseEnter={() => setMouseInModal(true)}
       onMouseLeave={() => setMouseInModal(false)}
-      className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute w-[50%] min-h-[450px] max-h-[600px] rounded-md bg-zinc-900 border p-3 flex flex-col items-center justify-between"
+      className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute w-[50%] min-h-[450px] max-h-[600px] rounded-md bg-zinc-900 border p-3 flex flex-col items-center justify-between z-20"
     >
       <div className="w-full flex flex-col items-center flex-1">
         <div className="relative bg-amber-50 w-full">

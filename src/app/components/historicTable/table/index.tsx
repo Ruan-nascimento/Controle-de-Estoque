@@ -36,6 +36,8 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
     const [loading, setLoading] = useState<boolean>(false);
     const {setModalPrintOpen, setItem} = useHistoric()
 
+    const height = `${window.innerHeight}px`
+
     const handleClickItem = (s:items) => {
         setModalPrintOpen(true)
         setItem(s)
@@ -114,9 +116,9 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
     const displaySales = founded || dataInicio || dataFim ? itemsFiltered : sell;
 
     return (
-        <div className="relative">
+        <div className={`relative max-h-[500px] overflow-auto custom-scrollbar`}>
             <table className="w-full border-collapse rounded-md shadow-sm">
-                <thead>
+                <thead className="sticky top-0 z-10">
                     <tr className="bg-zinc-800 text-white">
                         <th className="p-3 text-left text-sm font-semibold border-b border-zinc-700">Código da Venda</th>
                         <th className="p-3 text-left text-sm font-semibold border-b border-zinc-700">Data</th>

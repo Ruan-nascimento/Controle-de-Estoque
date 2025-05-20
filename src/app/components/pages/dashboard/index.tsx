@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button"
-import { Calendar1Icon, CoinsIcon, LayoutGridIcon } from "lucide-react"
+import { LayoutGridIcon } from "lucide-react"
 import { useItems } from "@/lib/hooks/useItems"
 import { DailyTarget } from "../../dashboardWidgets/dailyTarget"
 import { DashboardProvider } from "@/lib/contexts/dashboardContext"
@@ -19,7 +18,7 @@ export const DashboardPage = () => {
 
             <main className="flex flex-col max-h-full overflow-auto custom-scrollbar gap-4">
 
-                <div className="w-full flex">
+                <div className="w-full flex gap-4">
                     <DailyTarget/>
                 </div>
 
