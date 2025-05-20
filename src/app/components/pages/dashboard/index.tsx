@@ -4,6 +4,9 @@ import { DailyTarget } from "../../dashboardWidgets/dailyTarget"
 import { DashboardProvider } from "@/lib/contexts/dashboardContext"
 import { TotalSellToday } from "../../dashboardWidgets/totalSellToday"
 import { SellPerTransaction } from "../../dashboardWidgets/sellPerTransaction"
+import { AllSellToday } from "../../dashboardWidgets/AllSell"
+import { ItemsStock } from "../../dashboardWidgets/itemsStock"
+import { MostProfitableSale } from "../../dashboardWidgets/mostProfitable"
 
 export const DashboardPage = () => {
 
@@ -27,6 +30,13 @@ export const DashboardPage = () => {
                         <TotalSellToday/>
                         <SellPerTransaction/>
                     </div>
+
+                    <div className="flex flex-col gap-2">
+                        <AllSellToday/>
+                        <ItemsStock/>
+                    </div>
+
+                    <MostProfitableSale/>
                 </div>
 
             </main>

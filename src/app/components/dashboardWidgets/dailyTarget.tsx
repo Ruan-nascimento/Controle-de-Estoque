@@ -80,7 +80,7 @@ export const DailyTarget = () => {
   };
 
   return (
-    <div className="p-4 bg-zinc-800 rounded-md shadow-2xl max-w-[350px] border-b border-cyan-600">
+    <div className="p-4 bg-zinc-800 rounded-md shadow-2xl max-w-[350px] min-w-[280px] border-b border-cyan-600">
       <span className="block text-lg font-semibold mb-2 text-white">Meta Diária</span>
 
       <div className="flex items-center relative rounded-md">
@@ -112,7 +112,7 @@ export const DailyTarget = () => {
 
         {loading && <Spinner className="absolute left-1/2"/>}
 
-        <span className="absolute left-2 top-1/2 -translate-y-1/2 font-bold text-white text-3xl">
+        <span className="absolute left-2 top-1/2 -translate-y-1/2 font-bold text-white text-2xl">
           R$
         </span>
         <input
@@ -121,7 +121,7 @@ export const DailyTarget = () => {
           onChange={handleChangeInput}
           disabled={disabled}
           type="text"
-          className="w-full p-4 pl-14 pr-16 text-3xl outline-none border-b border-cyan-600 rounded-md text-white bg-zinc-700 disabled:bg-zinc-900 placeholder:text-xl"
+          className="w-full p-4 pl-10 pr-16 text-2xl outline-none border-b border-cyan-600 rounded-md text-white bg-zinc-700 disabled:bg-zinc-900 placeholder:text-xl"
         />
       </div>
 

@@ -47,7 +47,7 @@ export const TotalSellToday = () => {
 
     return(
         <div
-         className="bg-zinc-800 p-4 rounded-md h-[50%] min-w-[300px] flex flex-col shadow-xl relative"
+         className="bg-zinc-800 p-4 rounded-md h-[50%] min-w-[300px] flex flex-col shadow-xl relative border-b border-cyan-600"
         >
             <span 
             title={`Vendeu ${percent.replace('-', '')}% a ${percent.includes('-') ? 'mais' : 'menos'} que ontem - R$${earnYesterday.toFixed(2).replace('.', ',')}`}

@@ -28,8 +28,7 @@ export async function GET() {
     const items = await prisma.item.findMany({
       orderBy: {
         createdAt: 'desc',
-      },
-      take: 50,
+      }
     });
     return NextResponse.json(items, { status: 200 });
   } catch (error: unknown) {
