@@ -1,6 +1,7 @@
 import { API_URL } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { items } from "../historicTable/table";
+import { Spinner } from "../spinner";
 
 export const CurrentMonthVsPastMonth = () => {
 
@@ -68,11 +69,12 @@ export const CurrentMonthVsPastMonth = () => {
 
     return(
         <div
-        className="flex flex-col pt-4 items-center justify-around min-w-[200px] w-[25%] h-64 rounded-lg border-b border-cyan-600 shadow-xl bg-zinc-800"
+        className="relative flex flex-col pt-4 items-center justify-baseline min-w-[200px] w-[25%] h-64 rounded-lg border-b border-cyan-600 shadow-xl bg-zinc-800"
         >   
             <h3 className="text-md">Lucro de {month(new Date().getMonth())} relacionado à {month(new Date().getMonth()-1)} </h3>
 
-            <div className="flex items-center justify-around w-full h-full">
+            {!loading && (
+                <div className="flex items-center justify-around w-full h-full">
 
                 <span
                 className={`${sub > 0 ? 'bg-green-500/60' : 'bg-red-500/60'} w-44 h-44 rounded-full flex items-center justify-center text-2xl font-bold`}
@@ -92,6 +94,9 @@ export const CurrentMonthVsPastMonth = () => {
                 </div>
 
             </div>
+            )}
+
+            {loading && <Spinner className="absolute top-1/2 left-1/2 -translate-1/2"/>}
 
         </div>
     )
