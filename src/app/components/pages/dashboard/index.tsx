@@ -7,6 +7,7 @@ import { SellPerTransaction } from "../../dashboardWidgets/sellPerTransaction"
 import { AllSellToday } from "../../dashboardWidgets/AllSell"
 import { ItemsStock } from "../../dashboardWidgets/itemsStock"
 import { MostProfitableSale } from "../../dashboardWidgets/mostProfitable"
+import { CurrentMonthVsPastMonth } from "../../dashboardWidgets/currentMonthVsPastMonth"
 
 export const DashboardPage = () => {
 
@@ -37,6 +38,10 @@ export const DashboardPage = () => {
                     </div>
 
                     <MostProfitableSale/>
+                </div>
+
+                <div>
+                    <CurrentMonthVsPastMonth/>
                 </div>
 
             </main>
