@@ -3,6 +3,7 @@ import { useItems } from "@/lib/hooks/useItems"
 import { DailyTarget } from "../../dashboardWidgets/dailyTarget"
 import { DashboardProvider } from "@/lib/contexts/dashboardContext"
 import { TotalSellToday } from "../../dashboardWidgets/totalSellToday"
+import { SellPerTransaction } from "../../dashboardWidgets/sellPerTransaction"
 
 export const DashboardPage = () => {
 
@@ -21,7 +22,11 @@ export const DashboardPage = () => {
 
                 <div className="w-full flex gap-4">
                     <DailyTarget/>
-                    <TotalSellToday/>
+
+                    <div className="flex flex-col gap-2">
+                        <TotalSellToday/>
+                        <SellPerTransaction/>
+                    </div>
                 </div>
 
             </main>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { items } from "../historicTable/table";
 import { Spinner } from "../spinner";
 
-export const TotalSellToday = () => {
+export const SellPerTransaction = () => {
 
     const [data, setData] = useState<items[]>([])
     const [loading, setLoading] = useState<boolean>(false)
@@ -32,39 +32,25 @@ export const TotalSellToday = () => {
     
         fetchSales();
       }, []);
-
-    const earnToday = data
-    .filter((d) => new Date(d.createdAt).getDate() === new Date().getDate())
-    .reduce((acc, item) => acc + (item.total || 0), 0);
-
-    const earnYesterday = data
-    .filter(y => new Date(y.createdAt).getDate() === new Date().getDate() -1)
-    .reduce((acc, item) => acc + (item.total || 0), 0);
-
-    const percentTodayVsYesterday = earnYesterday ? earnToday * 100 / earnYesterday : 0;
-
-    const percent = (100 - percentTodayVsYesterday).toFixed(1)
+    
+    const sell = data.length
+    const amount = data.reduce((acc, item) => acc + (item.total || 0), 0)
+    const avarage = (amount / sell).toFixed(2).replace('.', ',')
 
     return(
         <div
          className="bg-zinc-800 p-4 rounded-md h-[50%] min-w-[300px] flex flex-col shadow-xl relative"
         >
-            <span 
-            title={`Vendeu ${percent.replace('-', '')}% a ${percent.includes('-') ? 'mais' : 'menos'} que ontem - R$${earnYesterday.toFixed(2).replace('.', ',')}`}
-
-            className={`absolute top-1/2 right-6 ${earnToday > earnYesterday ? 'text-green-500' : earnToday < earnYesterday ? 'text-red-500' : 'text-zinc-400'}`}>{earnToday > earnYesterday ? '+' : earnToday < earnYesterday ? '-' : ''}{percent.includes('-') ? `${percent.replace('-', '')}%` : `${percent}%`}
-            
-            </span>
 
             <span
             className="text-lg font-semibold"
-            >Total de Vendas Hoje</span>
+            >Valor Médio p/ Venda</span>
 
             <span
             className="text-3xl font-semibold"
-            >R$ {!loading ? earnToday.toFixed(2).replace('.', ',') : '...'}</span>
+            >R$ {loading ? '...' : avarage}</span>
 
-            {loading && <Spinner className="absolute right-20 top-1/2"/>}
+            {loading && <Spinner className="absolute right-12 top-1/2"/>}
         </div>
     )
 }
