@@ -35,12 +35,14 @@ export const PercentOfTarget = ({ meta }: { meta: number }) => {
   const percent = meta > 0 ? (earnToday * 100) / meta : 0;
 
 
+
   const displayPercent = Math.min(percent, 100);
   const formattedPercent = percent.toFixed(1) + "%";
 
   return (
     <div
       className="w-full h-8 mt-3 bg-zinc-950 rounded-xl relative"
+      title={percent < 100 ? `Meta Diária: ${percent}%` : `Meta Atingida Com Sucesso: ${percent}%`}
       role="progressbar"
       aria-valuenow={displayPercent}
       aria-valuemin={0}

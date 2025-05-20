@@ -36,7 +36,6 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
     const [loading, setLoading] = useState<boolean>(false);
     const {setModalPrintOpen, setItem} = useHistoric()
 
-    const height = `${window.innerHeight}px`
 
     const handleClickItem = (s:items) => {
         setModalPrintOpen(true)

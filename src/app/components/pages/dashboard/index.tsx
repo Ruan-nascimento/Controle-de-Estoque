@@ -2,6 +2,7 @@ import { LayoutGridIcon } from "lucide-react"
 import { useItems } from "@/lib/hooks/useItems"
 import { DailyTarget } from "../../dashboardWidgets/dailyTarget"
 import { DashboardProvider } from "@/lib/contexts/dashboardContext"
+import { TotalSellToday } from "../../dashboardWidgets/totalSellToday"
 
 export const DashboardPage = () => {
 
@@ -20,6 +21,7 @@ export const DashboardPage = () => {
 
                 <div className="w-full flex gap-4">
                     <DailyTarget/>
+                    <TotalSellToday/>
                 </div>
 
             </main>
