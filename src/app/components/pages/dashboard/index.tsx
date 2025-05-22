@@ -6,8 +6,8 @@ import { TotalSellToday } from "../../dashboardWidgets/totalSellToday"
 import { SellPerTransaction } from "../../dashboardWidgets/sellPerTransaction"
 import { AllSellToday } from "../../dashboardWidgets/AllSell"
 import { ItemsStock } from "../../dashboardWidgets/itemsStock"
-import { MostProfitableSale } from "../../dashboardWidgets/mostProfitable"
 import { CurrentMonthVsPastMonth } from "../../dashboardWidgets/currentMonthVsPastMonth"
+import { LastSevenDays } from "../../dashboardWidgets/lastSevenDays"
 
 export const DashboardPage = () => {
 
@@ -22,7 +22,7 @@ export const DashboardPage = () => {
                 <h1 className="flex items-center gap-4 text-xl font-semibold"><LayoutGridIcon size={44}/> Painel Principal</h1>
             </header>
 
-            <main className="flex flex-col max-h-full overflow-auto custom-scrollbar gap-4">
+            <main className="flex flex-col h-full overflow-auto custom-scrollbar gap-4">
 
                 <div className="w-full flex gap-4">
                     <DailyTarget/>
@@ -37,11 +37,12 @@ export const DashboardPage = () => {
                         <ItemsStock/>
                     </div>
 
-                    <MostProfitableSale/>
+                    <CurrentMonthVsPastMonth/>
+                    
                 </div>
 
-                <div>
-                    <CurrentMonthVsPastMonth/>
+                <div className="flex gap-4 w-full bg-zinc-800 shadow-md h-full rounded-md p-2">
+                    <LastSevenDays/>
                 </div>
 
             </main>

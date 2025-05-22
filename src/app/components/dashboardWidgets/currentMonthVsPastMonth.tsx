@@ -69,7 +69,7 @@ export const CurrentMonthVsPastMonth = () => {
 
     return(
         <div
-        className="relative flex flex-col pt-4 items-center justify-baseline min-w-[200px] w-[25%] h-64 rounded-lg border-b border-cyan-600 shadow-xl bg-zinc-800"
+        className="relative flex flex-col pt-4 items-center justify-baseline min-w-[200px] w-[25%] h-full rounded-lg border-b border-cyan-600 shadow-xl bg-zinc-800"
         >   
             <h3 className="text-md">Lucro de {month(new Date().getMonth())} relacionado à {month(new Date().getMonth()-1)} </h3>
 
@@ -77,7 +77,7 @@ export const CurrentMonthVsPastMonth = () => {
                 <div className="flex items-center justify-around w-full h-full">
 
                 <span
-                className={`${sub > 0 ? 'bg-green-500/60' : 'bg-red-500/60'} w-44 h-44 rounded-full flex items-center justify-center text-2xl font-bold`}
+                className={`${sub > 0 ? 'bg-green-500/60' : 'bg-red-500/60'} w-36 h-36 rounded-full flex items-center justify-center text-xl font-bold`}
                 >{sub > 0 ? '+' : '-'}{percent()}%</span>
 
                 <div className="flex flex-col gap-4">

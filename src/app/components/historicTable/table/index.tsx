@@ -13,7 +13,7 @@ interface HistoricTableComponentProps {
     dataInicio?: string;
 }
 
-interface saleItems {
+export interface saleItems {
   id: string;
   name: string;
   flavor: string;

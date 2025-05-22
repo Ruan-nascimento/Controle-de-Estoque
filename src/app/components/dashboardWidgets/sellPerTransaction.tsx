@@ -33,8 +33,8 @@ export const SellPerTransaction = () => {
         fetchSales();
       }, []);
     
-    const sell = data.length
-    const amount = data.reduce((acc, item) => acc + (item.total || 0), 0)
+    const sell = data.filter(d => new Date(d.createdAt).getDay() === new Date().getDay()).length
+    const amount = data.filter(d => new Date(d.createdAt).getDay() === new Date().getDay()).reduce((acc, item) => acc + (item.total || 0), 0)
     const avarage = (amount / sell).toFixed(2).replace('.', ',')
 
     return(
@@ -44,7 +44,7 @@ export const SellPerTransaction = () => {
 
             <span
             className="text-lg font-semibold"
-            >Valor Médio p/ Venda</span>
+            >Ticket Médio Hoje</span>
 
             <span
             className="text-3xl font-semibold"
