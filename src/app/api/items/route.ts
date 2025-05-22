@@ -16,7 +16,7 @@ const deleteSchema = z.object({
 });
 
 
-const getStatusFromQuantity = (qtd: number): string => {
+export const getStatusFromQuantity = (qtd: number): string => {
   if (qtd === 0) return "Em Falta";
   if (qtd < 10) return "Pouco";
   if (qtd <= 25) return "Suficiente";

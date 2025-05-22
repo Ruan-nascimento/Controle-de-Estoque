@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
+import { getStatusFromQuantity } from '../route';
 
 const prisma = new PrismaClient();
 
@@ -17,10 +18,13 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       return NextResponse.json({ error: 'Item não encontrado' }, { status: 404 });
     }
 
+    const status = getStatusFromQuantity(updatedFields.qtd)
+
     const updatedItem = await prisma.item.update({
       where: { id },
       data: {
         ...updatedFields,
+        status,
         updatedAt: new Date(),
       },
     });

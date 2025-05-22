@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/utils";
 import { NextResponse } from "next/server";
+import { getStatusFromQuantity } from "../items/route";
 
 export async function POST() {
   try {
@@ -38,9 +39,12 @@ export async function POST() {
           );
         }
 
+        const status = getStatusFromQuantity(newQtd)
+
         await tx.item.update({
           where: { id: cartItem.itemId },
-          data: { qtd: newQtd },
+          data: { qtd: newQtd, status: status },
+
         });
       }
 

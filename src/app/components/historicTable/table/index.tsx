@@ -125,9 +125,10 @@ export const HistoricTableComponent = ({ founded, dataFim, dataInicio }: Histori
                         <th className="p-3 text-left text-sm font-semibold border-b border-zinc-700">Descrição dos Itens</th>
                     </tr>
                 </thead>
-                {loading ? (
-                    <Spinner className="absolute top-20 left-1/2" />
-                ) : (
+                {loading ? 
+                   <Spinner className="mt-10"/>
+                : 
+                (
                     <tbody>
                         {displaySales.map(s => (
                             <tr
