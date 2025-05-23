@@ -35,7 +35,7 @@ export const SellPerTransaction = () => {
     
     const sell = data.filter(d => new Date(d.createdAt).getDay() === new Date().getDay()).length
     const amount = data.filter(d => new Date(d.createdAt).getDay() === new Date().getDay()).reduce((acc, item) => acc + (item.total || 0), 0)
-    const avarage = (amount / sell).toFixed(2).replace('.', ',')
+    const avarage = !sell && !amount ? (0).toFixed(2).replace('.', ',') : (amount / sell).toFixed(2).replace('.', ',')
 
     return(
         <div
