@@ -1,6 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { getStatusFromQuantity } from '../route';
+
+const getStatusFromQuantity = (qtd: number): string => {
+  if (qtd === 0) return "Em Falta";
+  if (qtd < 10) return "Pouco";
+  if (qtd <= 25) return "Suficiente";
+  return "Completo";
+};
 
 const prisma = new PrismaClient();
 

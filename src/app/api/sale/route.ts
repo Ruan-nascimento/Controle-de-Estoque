@@ -1,6 +1,12 @@
 import { prisma } from "@/lib/utils";
 import { NextResponse } from "next/server";
-import { getStatusFromQuantity } from "../items/route";
+
+const getStatusFromQuantity = (qtd: number): string => {
+  if (qtd === 0) return "Em Falta";
+  if (qtd < 10) return "Pouco";
+  if (qtd <= 25) return "Suficiente";
+  return "Completo";
+};
 
 export async function POST() {
   try {
